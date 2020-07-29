@@ -1,0 +1,31 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: bitnami/redis:latest
+        env:
+          REDIS_PASSWORD: password
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli -a password ping" --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14.x
+
+      - name: Install Dependencies
+        run: go mod download
+
+      - name: Tests
+        run: go test -v ./...
