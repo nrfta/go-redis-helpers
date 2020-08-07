@@ -30,10 +30,19 @@ var _ = Describe("Connection Test", func() {
 			Database: db,
 		}
 	)
+	Context("Redis v8", func() {
+		It("should connect to a database", func() {
+			rdb, err := rh.ConnectRedisV8(testConfig)
+			Expect(err).To(BeNil())
+			Expect(rdb).To(Not(BeNil()))
+		})
+	})
 
-	It("should connect to a database", func() {
-		rdb, err := rh.ConnectRedis(testConfig)
-		Expect(err).To(BeNil())
-		Expect(rdb).To(Not(BeNil()))
+	Context("Redis v7", func() {
+		It("should connect to a database", func() {
+			rdb, err := rh.ConnectRedisV7(testConfig)
+			Expect(err).To(BeNil())
+			Expect(rdb).To(Not(BeNil()))
+		})
 	})
 })

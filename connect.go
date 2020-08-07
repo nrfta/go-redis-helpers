@@ -3,18 +3,19 @@ package redis_helpers
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis/v8"
+	redis7 "github.com/go-redis/redis/v7"
+	redis8 "github.com/go-redis/redis/v8"
 	"time"
 )
 
 const DefaultPort = 6379
 
-func ConnectRedis(c RedisConfig) (*redis.Client, error) {
+func ConnectRedisV8(c RedisConfig) (*redis8.Client, error) {
 	port := DefaultPort
 	if c.Port > 0 {
 		port = c.Port
 	}
-	o := &redis.Options{
+	o := &redis8.Options{
 		Addr:     fmt.Sprintf("%s:%d",c.Host, port),
 		DB:       c.Database,
 	}
@@ -22,7 +23,7 @@ func ConnectRedis(c RedisConfig) (*redis.Client, error) {
 		o.Password = c.Password
 	}
 
-	rdb := redis.NewClient(o)
+	rdb := redis8.NewClient(o)
 
 	// try pinging for 5 seconds
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -30,17 +31,49 @@ func ConnectRedis(c RedisConfig) (*redis.Client, error) {
 	for {
 		_, err := rdb.Ping(ctx).Result()
 		if err == nil {
-			break
+			return rdb, nil
 		}
 
 		select {
 		case <-ctx.Done():
 			return nil, fmt.Errorf("failed to connect to redis; no ping response")
 		default:
-				time.Sleep(100 * time.Millisecond)
-				continue
+			time.Sleep(100 * time.Millisecond)
+			continue
 		}
 	}
+}
 
-	return rdb, nil
+func ConnectRedisV7(c RedisConfig) (*redis7.Client, error) {
+	port := DefaultPort
+	if c.Port > 0 {
+		port = c.Port
+	}
+	o := &redis7.Options{
+		Addr:     fmt.Sprintf("%s:%d",c.Host, port),
+		DB:       c.Database,
+	}
+	if c.Password != "" {
+		o.Password = c.Password
+	}
+
+	rdb := redis7.NewClient(o)
+
+	// try pinging for 5 seconds
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	for {
+		_, err := rdb.Ping().Result()
+		if err == nil {
+			return rdb, nil
+		}
+
+		select {
+		case <-ctx.Done():
+			return nil, fmt.Errorf("failed to connect to redis; no ping response")
+		default:
+			time.Sleep(100 * time.Millisecond)
+			continue
+		}
+	}
 }

@@ -6,3 +6,4 @@ type RedisConfig struct {
 	Database int
 	Password string
 }
+
