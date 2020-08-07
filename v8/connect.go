@@ -1,21 +1,21 @@
-package redis_helpers
+package v8
 
 import (
 	"context"
 	"fmt"
 	redis7 "github.com/go-redis/redis/v7"
-	redis8 "github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis/v8"
 	"time"
 )
 
 const DefaultPort = 6379
 
-func ConnectRedisV8(c RedisConfig) (*redis8.Client, error) {
+func ConnectRedis(c RedisConfig) (*redis.Client, error) {
 	port := DefaultPort
 	if c.Port > 0 {
 		port = c.Port
 	}
-	o := &redis8.Options{
+	o := &redis.Options{
 		Addr:     fmt.Sprintf("%s:%d",c.Host, port),
 		DB:       c.Database,
 	}
@@ -23,7 +23,7 @@ func ConnectRedisV8(c RedisConfig) (*redis8.Client, error) {
 		o.Password = c.Password
 	}
 
-	rdb := redis8.NewClient(o)
+	rdb := redis.NewClient(o)
 
 	// try pinging for 5 seconds
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
