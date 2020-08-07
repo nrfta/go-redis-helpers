@@ -1,4 +1,4 @@
-package v8
+package redis_helpers
 
 type RedisConfig struct {
 	Host     string
