@@ -3,7 +3,6 @@ package redis_helpers
 import (
 	"context"
 	"fmt"
-	redis7 "github.com/go-redis/redis/v7"
 	"github.com/go-redis/redis/v8"
 	"time"
 )
@@ -44,12 +43,12 @@ func ConnectRedis(c RedisConfig) (*redis.Client, error) {
 	}
 }
 
-func ConnectRedisV7(c RedisConfig) (*redis7.Client, error) {
+func ConnectRedisV7(c RedisConfig) (*redis.Client, error) {
 	port := DefaultPort
 	if c.Port > 0 {
 		port = c.Port
 	}
-	o := &redis7.Options{
+	o := &redis.Options{
 		Addr:     fmt.Sprintf("%s:%d",c.Host, port),
 		DB:       c.Database,
 	}
@@ -57,13 +56,13 @@ func ConnectRedisV7(c RedisConfig) (*redis7.Client, error) {
 		o.Password = c.Password
 	}
 
-	rdb := redis7.NewClient(o)
+	rdb := redis.NewClient(o)
 
 	// try pinging for 5 seconds
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	for {
-		_, err := rdb.Ping().Result()
+		_, err := rdb.Ping(context.Background()).Result()
 		if err == nil {
 			return rdb, nil
 		}
