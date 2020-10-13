@@ -2,6 +2,7 @@ package redis_helpers
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"github.com/go-redis/redis/v7"
 	"time"
@@ -20,6 +21,11 @@ func ConnectRedis(c RedisConfig) (*redis.Client, error) {
 	}
 	if c.Password != "" {
 		o.Password = c.Password
+	}
+	if c.SSLEnabled {
+		o.TLSConfig = &tls.Config{
+			ServerName: c.Host,
+		}
 	}
 
 	rdb := redis.NewClient(o)

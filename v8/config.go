@@ -7,6 +7,8 @@ type RedisConfig struct {
 	Port     int
 	Database int
 	Password string
+	SSLEnabled         bool `mapstructure:"ssl_enabled"`
+	ClusterEnabled bool `mapstructure:"cluster_enabled"`
 }
 
 func (c RedisConfig) URL() string {
