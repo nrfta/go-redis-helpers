@@ -15,13 +15,21 @@ func ConnectRedis(c RedisConfig) (*redis.Client, error) {
 	if c.Port > 0 {
 		port = c.Port
 	}
+
+	db := c.Database
+	if c.ClusterEnabled && db != 0 {
+		return nil, fmt.Errorf("only database 0 is supported in cluster mode")
+	}
+
 	o := &redis.Options{
 		Addr: fmt.Sprintf("%s:%d", c.Host, port),
-		DB:   c.Database,
+		DB:   db,
 	}
+
 	if c.Password != "" {
 		o.Password = c.Password
 	}
+
 	if c.SSLEnabled {
 		o.TLSConfig = &tls.Config{
 			ServerName: c.Host,
