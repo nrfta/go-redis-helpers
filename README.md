@@ -1,6 +1,6 @@
 # go-redis-helpers
 
-![CI](https://github.com/nrfta/go-redis-helpers/workflows/CI/badge.svg?branch=master)
+![CI](https://github.com/nrfta/go-redis-helpers/workflows/CI/badge.svg?branch=main)
 
 Provides common config and connect for Redis database.
 
