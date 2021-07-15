@@ -1,10 +1,9 @@
-module github.com/nrfta/go-redis-helpers
+module github.com/nrfta/go-redis-helpers/v7
 
 go 1.14
 
 require (
 	github.com/go-redis/redis/v7 v7.4.0
-	github.com/go-redis/redis/v8 v8.0.0-beta.7
 	github.com/onsi/ginkgo v1.10.1
 	github.com/onsi/gomega v1.7.0
 )
