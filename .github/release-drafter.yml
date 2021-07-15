@@ -1,8 +1,7 @@
 # Configuration for Release Drafter - https://github.com/toolmantim/release-drafter
 
-commitish: v7
-name-template: v$NEXT_MINOR_VERSION
-tag-template: v$NEXT_MINOR_VERSION
+name-template: v$NEXT_PATCH_VERSION
+tag-template: v$NEXT_PATCH_VERSION
 categories:
   - title: ':boom: Breaking Change'
     label: 'Type: Breaking Change'
@@ -30,6 +29,8 @@ categories:
 
 change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 no-changes-template: '- No changes'
+commitish: v7
+filter-by-commitish: true
 template: |
   $CHANGES
   ***
