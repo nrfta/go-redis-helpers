@@ -1,0 +1,34 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+.idea/**
+bin/
+server
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Other
+gin-bin
+orchestration-api
+orchestration-api-server
+*_gen.go
+.DS_Store
+Icon?
+
+# Ginkgo Test Coverage Output
+*.coverprofile
+
+# sqlboiler templates
+templates/sqlboiler
+
+config/config-packr.go
+packrd/packed-packr.go
+
