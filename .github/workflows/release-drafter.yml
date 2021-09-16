@@ -15,4 +15,4 @@ jobs:
       - name: Draft Release
         uses: release-drafter/release-drafter@v5.15.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKENgit pu }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
