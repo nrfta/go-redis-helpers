@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Draft Release
-        uses: toolmantim/release-drafter@master
+        uses: release-drafter/release-drafter@5.15.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
